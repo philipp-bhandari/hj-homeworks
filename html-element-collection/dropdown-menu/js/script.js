@@ -1,6 +1,6 @@
 'use strict';
 
-let dropdownDiv = document.getElementsByClassName('wrapper-dropdown');
+const dropdownDiv = document.getElementsByClassName('wrapper-dropdown');
 for(let elem of dropdownDiv) {
     elem.addEventListener('click', ()=>{
         if(elem.classList.contains('active')) {
