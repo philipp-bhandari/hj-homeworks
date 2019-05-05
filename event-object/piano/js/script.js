@@ -11,12 +11,19 @@ function useKey(e) {
     audio.currentTime = 0;
 
     let name = getFilename(audio.src);
+    const classList = e.currentTarget.classList;
 
     if(e.shiftKey) {
+        classList.remove(classList[1]);
+        classList.add('lower');
         audio.src = `sounds/lower/${name}`;
     } else if(e.altKey) {
+        classList.remove(classList[1]);
+        classList.add('higher');
         audio.src = `sounds/higher/${name}`;
     } else {
+        classList.remove(classList[1]);
+        classList.add('middle');
         audio.src = `sounds/middle/${name}`;
     }
     audio.play();
