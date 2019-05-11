@@ -12,31 +12,32 @@ document.addEventListener('DOMContentLoaded', ()=>{
         preloader.classList.toggle('hidden');
     }
     function onTabClick(e) {
+
         e.preventDefault();
         const tabsLinks = e.currentTarget.getElementsByTagName('a');
-        let filename = e.target.getAttribute('href').split('/').pop();
+        const targetHref = e.target.getAttribute('href');
 
         for(let link of tabsLinks) {
-            let name = link.getAttribute('href').split('/').pop();
-            if(name === filename) {
+            let linkHref = link.getAttribute('href');
+            if(linkHref === targetHref) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
             }
         }
 
-        getTabContent(filename);
+        getTabContent(e.target);
     }
 
-    function getTabContent(filename) {
+    function getTabContent(tab) {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', `components/${filename}`);
+        xhr.open('GET', tab.getAttribute('href'));
         xhr.addEventListener('load', onLoad);
         xhr.addEventListener('loadstart', togglePreloader);
         xhr.addEventListener('loadend', togglePreloader);
         xhr.send();
     }
 
-    getTabContent('email-tab.html');
+    getTabContent(document.querySelector('.active'));
     navigation.addEventListener('click', onTabClick);
 });

@@ -1,6 +1,8 @@
 function  onLoad() {
-    const response = JSON.parse(this.responseText);
-    setData(response);
+    if(this.status === 200) {
+        const response = JSON.parse(this.responseText);
+        setData(response);
+    }
 }
 
 const request = new XMLHttpRequest();
