@@ -59,6 +59,10 @@ class Slider {
         this.#changeSlide(this.slides[0]);
         return false;
     }
+    disableButtons (a, b) {
+        this.nav.querySelector(`[data-action='${b}']`).classList.add('disabled');
+        this.nav.querySelector(`[data-action='${a}']`).classList.add('disabled');
+    };
 }
 
 document.addEventListener('DOMContentLoaded', ()=>{
@@ -73,11 +77,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
             let direction = e.target.dataset.action;
             if(!slider[direction]()) {
                 if(direction === 'next' || direction === 'last') {
-                    slider.nav.querySelector("[data-action='last']").classList.add('disabled');
-                    slider.nav.querySelector("[data-action='next']").classList.add('disabled');
+                    slider.disableButtons('next', 'last');
                 } else {
-                    slider.nav.querySelector("[data-action='first']").classList.add('disabled');
-                    slider.nav.querySelector("[data-action='prev']").classList.add('disabled');
+                    slider.disableButtons('first', 'prev');
                 }
             }
         }
