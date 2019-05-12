@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         } else {
             let direction = e.target.dataset.action;
             if(!slider[direction]()) {
-                e.target.classList.add('disabled');
                 if(direction === 'next' || direction === 'last') {
                     slider.nav.querySelector("[data-action='last']").classList.add('disabled');
                     slider.nav.querySelector("[data-action='next']").classList.add('disabled');
