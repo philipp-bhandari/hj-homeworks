@@ -7,17 +7,7 @@ function handleTableClick(event) {
 
     if(classList.contains('prop__name')) {
         event.currentTarget.dataset.sortBy = dataset.propName;
-        switch (dataset.dir) {
-            case '1':
-                dataset.dir = '-1';
-                break;
-            case '-1':
-                dataset.dir = '1';
-                break;
-            default:
-                dataset.dir = '1';
-        }
-
+        dataset.dir = dataset.dir === '1' ? '-1' : '1';
         sortTable(dataset.propName, dataset.dir);
     }
 }
