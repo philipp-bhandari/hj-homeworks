@@ -11,6 +11,8 @@ const links = [
     'https://neto-api.herokuapp.com/cart'
 ];
 
+
+//Получаем данные с сервера
 Promise.all(links.map(url => fetch(url)))
     .then(resp => Promise.all(resp.map(result => result.json())))
     .then(([dataColors, dataSizes, dataCart]) => {
@@ -20,7 +22,11 @@ Promise.all(links.map(url => fetch(url)))
     });
 
 
+
 function snippetSwatchColor(data, colorDefault = 'red') {
+
+    //Получаем цвета и создаём структуру блока
+
     if (!data.length) {
         return;
     }
@@ -52,8 +58,10 @@ function snippetSwatchColor(data, colorDefault = 'red') {
     }
 }
 
-// Добавление размеров
 function snippetSwatchSize(data, sizeDefault = 'xl') {
+
+    //Получаем размеры и создаём структуру блока
+
     if (!data.length) {
         return;
     }
@@ -85,6 +93,9 @@ function snippetSwatchSize(data, sizeDefault = 'xl') {
 }
 
 function snippetCart(data) {
+
+    //Получаем данные корзины и создаём структуру блока
+
     if (!data.length) {
         return;
     }
@@ -145,13 +156,22 @@ function snippetCart(data) {
 }
 
 addToForm.addEventListener('submit', (event) => {
+
+    // Добавляем обработчик на событие отправки формы
+
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     formData.append('productId', event.currentTarget.dataset.productId);
+
+    //отправляем данные на сервер
+
     fetchRequest(formData, 'https://neto-api.herokuapp.com/cart');
 });
 
 function fetchRequest(data, url) {
+
+    //Получаем данные и обновляем корзину
+
     fetch(url, {
         body: data,
         credentials: 'same-origin',

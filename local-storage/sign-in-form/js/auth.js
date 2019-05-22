@@ -5,15 +5,19 @@ const signUpForm = document.querySelector('.sign-up-htm'),
     errorUp = signUpForm.querySelector('.error-message'),
     errorIn = signInForm.querySelector('.error-message');
 
+// Создаем обработчик отправки формы
 function submitForm(e) {
     e.preventDefault();
     let formData = new FormData(this);
 
+
+    //Превращаем FormData в объект для отправки
     const sendObj = {};
     for (const [k, v] of formData) {
         sendObj[k] = v;
     }
 
+    // Ставим флаг что за форма
     let link = this === signUpForm ? 'signup' : 'signin';
 
     const promise = fetch(`https://neto-api.herokuapp.com/${link}`, {
@@ -31,12 +35,17 @@ function submitForm(e) {
         return res.json();
     }).then((data)=>{
         if(data.error) {
+
+            // Пишем сообщение об ошибке в зависимости от формы
             if(link === 'signup') {
                 errorUp.textContent = data.message;
             } else {
                 errorIn.textContent = data.message;
             }
         } else {
+
+
+            // Пишем результат в зависимости от формы
             if(link === 'signup') {
                 errorUp.textContent = `Пользователь ${data.name} успешно авторизован`;
             } else {
