@@ -16,7 +16,6 @@ let isFirst = true;
 
 ws.addEventListener('message', event => {
     const dataModify = JSON.parse(event.data);
-    console.log(dataModify)
 
     if (isFirst) {
         dataModify.forEach(data => online.addData([Number(data.online)], data.time));
