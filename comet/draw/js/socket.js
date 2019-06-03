@@ -1,5 +1,5 @@
 'use strict';
-const socket = new WebSocket('sockets://neto-api.herokuapp.com/draw');
+const socket = new WebSocket('wss://neto-api.herokuapp.com/draw');
 
 function sendData(event) {
     const events = document.getElementById(event.id);
