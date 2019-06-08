@@ -91,27 +91,21 @@ function generateSeat(value) {
     }
 }
 
-function cntOfSeat() {
+function cntOfSeat(type) {
     const seats = seatMapDiv.querySelectorAll('.seat');
-
     Array.from(seats).forEach(item => {
-        if (item.classList.contains('adult') || item.classList.contains('half')) {
-            totalPax.textContent = (parseInt(totalPax.textContent) < seats.length) ? parseInt(totalPax.textContent) + 1 : seats.length;
+        if(type === 'add') {
+            if(parseInt(totalPax.textContent) === seats.length){
+                return
+            }
+            if (item.classList.contains('adult')) {
+                totalAdult.textContent = (parseInt(totalAdult.textContent) < seats.length) ? parseInt(totalAdult.textContent) + 1 : seats.length;
+            }
+            totalPax.textContent = parseInt(totalAdult.textContent) + parseInt(totalHalf.textContent);
         } else {
-            totalPax.textContent = (parseInt(totalPax.textContent) > 0) ? parseInt(totalPax.textContent) - 1 : 0;
+            totalPax.textContent = totalHalf.textContent = totalAdult.textContent = 0;
         }
 
-        if (item.classList.contains('adult')) {
-            totalAdult.textContent = (parseInt(totalAdult.textContent) < seats.length) ? parseInt(totalAdult.textContent) + 1 : seats.length;
-        } else {
-            totalAdult.textContent = (parseInt(totalAdult.textContent) > 0) ? parseInt(totalAdult.textContent) - 1 : 0;
-        }
-
-        if (item.classList.contains('half')) {
-            totalHalf.textContent = (parseInt(totalHalf.textContent) < seats.length) ? parseInt(totalHalf.textContent) + 1 : seats.length;
-        } else {
-            totalHalf.textContent = (parseInt(totalHalf.textContent) > 0) ? parseInt(totalHalf.textContent) - 1 : 0;
-        }
     });
 }
 
@@ -121,40 +115,44 @@ function checkSeat(type) {
     // Добавляем или удаляем классы
 
     Array.from(seatList).forEach(item => {
-        if (!item.classList.contains('adult') && type === 'add') {
+        if (!item.classList.contains('adult') && type === 'add' && !item.classList.contains('half')) {
             item.classList.add('adult');
         } else if ((item.classList.contains('adult') || item.classList.contains('half')) && type === 'remove') {
             item.classList.remove('adult', 'half');
         }
     });
 
-    cntOfSeat();
+    cntOfSeat(type);
 }
 
 function pickOneSeat(event) {
     const target = event.currentTarget;
 
     // Добавляем выбор сидения
+    if (!target.classList.contains('half') && event.altKey) {
+        target.classList.add('half');
+        totalPax.textContent = parseInt(totalPax.textContent) + 1;
+        totalHalf.textContent = parseInt(totalHalf.textContent) + 1;
 
-    if (!target.classList.contains('adult')) {
+    } else if (target.classList.contains('half') && event.altKey) {
+        target.classList.remove('half', 'adult');
+        totalPax.textContent = parseInt(totalPax.textContent) - 1;
+        totalHalf.textContent = parseInt(totalHalf.textContent) - 1;
+        return;
+    }
+
+    if (!target.classList.contains('adult') && !target.classList.contains('half')) {
         target.classList.add('adult');
         totalPax.textContent = parseInt(totalPax.textContent) + 1;
         totalAdult.textContent = parseInt(totalAdult.textContent) + 1;
-    } else {
+
+    } else if (target.classList.contains('adult')){
         target.classList.remove('adult');
         totalPax.textContent = parseInt(totalPax.textContent) - 1;
         totalAdult.textContent = parseInt(totalAdult.textContent) - 1;
     }
 
-    if (!target.classList.contains('half') && event.altKey) {
-        target.classList.add('half');
-        totalPax.textContent = parseInt(totalPax.textContent) + 1;
-        totalHalf.textContent = parseInt(totalHalf.textContent) + 1;
-    } else if (target.classList.contains('half') && event.altKey) {
-        target.classList.remove('half');
-        totalPax.textContent = parseInt(totalPax.textContent) - 1;
-        totalHalf.textContent = parseInt(totalHalf.textContent) - 1;
-    }
+
 }
 
 function newEl(tagName, attrs, childs) {
