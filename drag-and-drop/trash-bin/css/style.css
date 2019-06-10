@@ -1,3 +1,7 @@
+body {
+  background-color: springgreen;
+}
+
 img.logo{
   cursor: move;
   width: 100px;
