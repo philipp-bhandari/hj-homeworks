@@ -46,4 +46,4 @@ function debounce(callback, delay) {
             callback();
         }, delay);
     };
-};
+}
